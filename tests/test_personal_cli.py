@@ -65,7 +65,11 @@ def test_all_projects_multiple(isolated_env):
 
 def test_cmd_init_creates_files(isolated_env, tmp_path):
     dest = tmp_path / "myproject"
-    args = MagicMock(name="myproject", type="cli", path=str(dest), remote="")
+    args = MagicMock()
+    args.name = "myproject"
+    args.type = "cli"
+    args.path = str(dest)
+    args.remote = ""
     cli.cmd_init(args)
     assert (dest / "main.py").exists()
     assert (dest / "README.md").exists()
@@ -76,7 +80,11 @@ def test_cmd_init_creates_files(isolated_env, tmp_path):
 
 def test_cmd_init_web_template(isolated_env, tmp_path):
     dest = tmp_path / "mysite"
-    args = MagicMock(name="mysite", type="web", path=str(dest), remote="")
+    args = MagicMock()
+    args.name = "mysite"
+    args.type = "web"
+    args.path = str(dest)
+    args.remote = ""
     cli.cmd_init(args)
     assert (dest / "index.html").exists()
     assert (dest / "style.css").exists()
@@ -114,7 +122,8 @@ def test_cmd_remove(isolated_env):
     p = cli.LocalProject(name="todelete", path="/tmp/x", type="lib")
     cli.save_project(p)
     assert cli.load_project("todelete") is not None
-    args = MagicMock(name="todelete")
+    args = MagicMock()
+    args.name = "todelete"
     cli.cmd_remove(args)
     assert cli.load_project("todelete") is None
 
